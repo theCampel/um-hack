@@ -1,6 +1,32 @@
 import { HabitService } from './services/habit.service';
+import { YouTubeService } from './services/youtube.service';
 
 const habitService = new HabitService();
+const youtubeService = new YouTubeService();
+
+// Fallback responses when YouTube API is not available
+async function getFallbackResponse(topic: string): Promise<ToolResult> {
+  const responses: Record<string, string> = {
+    'ultramarathon': 'Here are some great ultramarathon resources:\n\n1. **The Ultrarunning Podcast** - Interviews with elite ultrarunners\n2. **Trails and Tribulations** - Stories from the trail running community\n3. **Endurance Planet** - Training tips and race reports\n\nWould you like me to find specific episodes on any topic?',
+    'running': 'Here\'s a basic training plan:\n\n**Week 1-2:** Build base (3-4 runs/week, easy pace)\n**Week 3-4:** Add tempo runs (1x/week)\n**Week 5-6:** Include intervals\n**Week 7:** Taper for race\n\nRemember: 80% easy, 20% hard!',
+    'nutrition': 'Here are some nutritious meal ideas:\n\n• **Overnight oats** with berries and nuts\n• **Greek yogurt** with granola and honey\n• **Avocado toast** with eggs\n• **Smoothie bowl** with protein powder\n\nAll provide sustained energy for your day!'
+  };
+
+  const lowerTopic = topic.toLowerCase();
+  const response = Object.keys(responses).find(key => lowerTopic.includes(key));
+  
+  if (response) {
+    return {
+      success: true,
+      message: responses[response]
+    };
+  }
+
+  return {
+    success: true,
+    message: `I'd be happy to research "${topic}" for you! To get YouTube video recommendations, please add your YouTube API key to the .env file. For now, I can provide general guidance on topics like ultramarathons, running, and nutrition.`
+  };
+}
 
 export interface ToolResult {
   success: boolean;
@@ -25,30 +51,42 @@ export const tools = {
     };
   },
 
-  research: async (topic: string): Promise<ToolResult> => {
+  research: async (userId: string, topic: string): Promise<ToolResult> => {
     console.log(`[Tools] Researching: ${topic}`);
     
-    // For hackathon demo - hardcoded responses for common topics
-    const responses: Record<string, string> = {
-      'ultramarathon podcasts': 'Here are some great ultramarathon podcasts:\n\n1. **The Ultrarunning Podcast** - Interviews with elite ultrarunners\n2. **Trails and Tribulations** - Stories from the trail running community\n3. **Endurance Planet** - Training tips and race reports\n\nWould you like me to find specific episodes on any topic?',
-      'running training': 'Here\'s a basic training plan:\n\n**Week 1-2:** Build base (3-4 runs/week, easy pace)\n**Week 3-4:** Add tempo runs (1x/week)\n**Week 5-6:** Include intervals\n**Week 7:** Taper for race\n\nRemember: 80% easy, 20% hard!',
-      'healthy breakfast': 'Here are some nutritious breakfast ideas:\n\n• **Overnight oats** with berries and nuts\n• **Greek yogurt** with granola and honey\n• **Avocado toast** with eggs\n• **Smoothie bowl** with protein powder\n\nAll provide sustained energy for your day!'
-    };
+    try {
+      // Check if YouTube API key is available
+      if (!process.env.YOUTUBE_API_KEY) {
+        console.warn('[Tools] YouTube API key not found, using fallback responses');
+        return await getFallbackResponse(topic);
+      }
 
-    const lowerTopic = topic.toLowerCase();
-    const response = Object.keys(responses).find(key => lowerTopic.includes(key));
-    
-    if (response) {
+      // Enhance the search query for better results
+      const enhancedQuery = youtubeService.enhanceSearchQuery(topic);
+      
+      // Search YouTube for videos
+      const videos = await youtubeService.searchVideos(enhancedQuery, 1);
+      
+      if (videos.length > 0) {
+        // Save the video recommendation to user data
+        const saveResult = habitService.logVideoRecommendation(userId, topic, videos[0]);
+        if (saveResult.success) {
+          console.log('[Tools] Video recommendation saved to user data');
+        }
+      }
+      
+      // Format the results
+      const formattedResults = youtubeService.formatVideoResults(videos, topic);
+      
       return {
         success: true,
-        message: responses[response]
+        message: formattedResults
       };
-    }
 
-    return {
-      success: true,
-      message: `I'd be happy to research "${topic}" for you! For this demo, I have pre-loaded responses for ultramarathon podcasts, running training, and healthy breakfast ideas. In the full version, I would search the web for the latest information on your topic.`
-    };
+    } catch (error) {
+      console.error('[Tools] Error in YouTube research:', error);
+      return await getFallbackResponse(topic);
+    }
   },
 
   getHabitStatus: async (userId: string): Promise<ToolResult> => {

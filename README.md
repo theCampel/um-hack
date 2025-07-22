@@ -7,7 +7,7 @@ Aura is an intelligent WhatsApp bot that helps you track habits, log activities,
 - 🎤 **Voice Message Support** - Send voice notes, Aura understands them natively
 - 📝 **Activity Logging** - Log meals, workouts, and daily activities
 - 🎯 **Habit Tracking** - Track streaks for pills, meditation, exercise, etc.
-- 🔍 **Research Assistant** - Ask questions and get helpful information
+- 🔍 **YouTube Research** - Get real YouTube video recommendations for any topic
 - 📊 **Streak Management** - Visual feedback for habit consistency
 - 🤖 **Natural Conversation** - Powered by Gemini 2.0 Flash with tool calling
 
@@ -38,16 +38,19 @@ Aura is an intelligent WhatsApp bot that helps you track habits, log activities,
    cp .env.example .env
    ```
    
-   Edit `.env` and add your API key:
+   Edit `.env` and add your API keys:
    ```env
    APP_ENV=development
    GEMINI_API_KEY=your_gemini_api_key_here
+   YOUTUBE_API_KEY=your_youtube_api_key_here
    ```
 
-4. **Get your Gemini API key**
-   - Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
-   - Create a new API key
-   - Copy it to your `.env` file
+4. **Get your API keys**
+   - **Gemini API key**: Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
+   - **YouTube API key**: Go to [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+     - Enable the YouTube Data API v3
+     - Create credentials (API key)
+     - Copy both keys to your `.env` file
 
 5. **Update the phone number**
    
@@ -77,9 +80,10 @@ Aura is an intelligent WhatsApp bot that helps you track habits, log activities,
 - **Text**: "I had oatmeal and berries for breakfast, feeling energized"
 - **Voice**: *"Just completed a 5k run, felt amazing!"*
 
-### Research
-- **Text**: "Find me some ultramarathon podcasts"
-- **Voice**: *"What are some good exercises for core strength?"*
+### Research (YouTube Integration)
+- **Text**: "I want to learn more about ultramarathons"
+- **Voice**: *"Find me beginner guides for meditation"*
+- **Response**: Real YouTube videos with titles, channels, and links!
 
 ### Check Progress
 - **Text**: "How are my habits going?"

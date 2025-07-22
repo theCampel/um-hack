@@ -3,7 +3,7 @@
     "name": "Leo Camacho",
     "habits": {
       "take_pills": {
-        "streak": 7,
+        "streak": 8,
         "lastCompleted": "2025-01-21",
         "description": "Daily vitamins and supplements"
       },
@@ -32,9 +32,30 @@
         "mood": "neutral"
       }
     ],
+    "videoRecommendations": [
+      {
+        "date": "2025-07-22",
+        "query": "beginner's tips for half marathon videos",
+        "title": "Half Marathon Training For Beginners! | How To Train For Your First Half-Marathon!",
+        "channelTitle": "Global Triathlon Network",
+        "publishedAt": "2021-01-03T10:00:02Z",
+        "videoId": "C7NnlF0-p60",
+        "url": "https://www.youtube.com/watch?v=C7NnlF0-p60",
+        "thumbnailUrl": "https://i.ytimg.com/vi/C7NnlF0-p60/mqdefault.jpg"
+      }
+    ],
     "preferences": {
-      "interests": ["ultramarathons", "podcasts", "health", "productivity"],
-      "goals": ["train for 10k race", "maintain vitamin routine", "improve sleep"]
+      "interests": [
+        "ultramarathons",
+        "podcasts",
+        "health",
+        "productivity"
+      ],
+      "goals": [
+        "train for 10k race",
+        "maintain vitamin routine",
+        "improve sleep"
+      ]
     }
   }
-} 
+}

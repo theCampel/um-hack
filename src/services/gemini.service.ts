@@ -11,6 +11,7 @@ interface ToolCall {
 interface GeminiResponse {
   text?: string;
   toolCall?: ToolCall;
+  toolCalls?: ToolCall[];
 }
 
 export class GeminiService {
@@ -33,15 +34,15 @@ CURRENT USER CONTEXT:
 ${userContext}
 
 AVAILABLE TOOLS:
-You can call exactly ONE tool per response. Here are the tools available to you:
+You can call MULTIPLE tools per response if the user mentions multiple activities. Here are the tools available to you:
 
 1. **logActivity** - Use when the user mentions doing an activity, eating something, or wants to log what they did
-   - Parameters: userId (string), type (string), details (string), mood (optional string)
+   - Parameters: type (string), details (string), mood (optional string)
    - Types include: "exercise", "nutrition", "work", "social", "health", "entertainment", "learning"
    - Call this when user says things like: "I went for a run", "I ate breakfast", "I had a great meeting"
 
 2. **updateHabit** - Use when the user mentions completing a habit or routine they want to track
-   - Parameters: userId (string), habitName (string)
+   - Parameters: habitName (string)
    - Call this when user says: "I took my pills", "I meditated", "I did my morning routine"
    - Habit names should be simple: "take_pills", "meditation", "morning_run", "read_book", etc.
 
@@ -50,7 +51,7 @@ You can call exactly ONE tool per response. Here are the tools available to you:
    - Call this when user asks: "Find me podcasts about...", "What are good exercises for...", "Tell me about..."
 
 4. **getHabitStatus** - Use when the user wants to see their current habits and streaks
-   - Parameters: userId (string)
+   - Parameters: (no parameters needed)
    - Call this when user asks: "How are my habits?", "Show me my streaks", "What's my progress?"
 
 DECISION MAKING RULES:
@@ -61,8 +62,9 @@ DECISION MAKING RULES:
 - If none of these apply, respond conversationally without calling a tool
 
 RESPONSE FORMAT:
-- If calling a tool, respond with: TOOL_CALL: {"name": "toolName", "arguments": {...}}
-- If not calling a tool, respond conversationally and helpfully
+- If calling ONE tool, respond with: TOOL_CALL: {"name": "toolName", "arguments": {...}}
+- If calling MULTIPLE tools, respond with: TOOL_CALLS: [{"name": "toolName1", "arguments": {...}}, {"name": "toolName2", "arguments": {...}}]
+- If not calling any tools, respond conversationally and helpfully
 
 PERSONALITY:
 - Be encouraging and supportive about habits and streaks
@@ -74,21 +76,24 @@ PERSONALITY:
 EXAMPLES:
 
 User: "I just took my daily vitamins"
-Response: TOOL_CALL: {"name": "updateHabit", "arguments": {"userId": "user_id", "habitName": "take_pills"}}
+Response: TOOL_CALL: {"name": "updateHabit", "arguments": {"habitName": "take_pills"}}
 
 User: "I had oatmeal and berries for breakfast, feeling good"
-Response: TOOL_CALL: {"name": "logActivity", "arguments": {"userId": "user_id", "type": "nutrition", "details": "Had oatmeal and berries for breakfast", "mood": "positive"}}
+Response: TOOL_CALL: {"name": "logActivity", "arguments": {"type": "nutrition", "details": "Had oatmeal and berries for breakfast", "mood": "positive"}}
 
 User: "Find me some ultramarathon podcasts"
 Response: TOOL_CALL: {"name": "research", "arguments": {"topic": "ultramarathon podcasts"}}
 
 User: "How are my habits going?"
-Response: TOOL_CALL: {"name": "getHabitStatus", "arguments": {"userId": "user_id"}}
+Response: TOOL_CALL: {"name": "getHabitStatus", "arguments": {}}
 
 User: "Hey how are you?"
 Response: Hey there! I'm doing great and ready to help you with your day. How can I assist you today? Whether you want to log an activity, check on your habits, or need me to research something - I'm here for you! 😊
 
-Remember: Only call ONE tool per response. Choose the most appropriate tool based on the user's intent.`;
+User: "I took my vitamins and went for a 5k run this morning"
+Response: TOOL_CALLS: [{"name": "updateHabit", "arguments": {"habitName": "take_pills"}}, {"name": "logActivity", "arguments": {"type": "exercise", "details": "Went for a 5k run this morning", "mood": "positive"}}]
+
+Remember: You can call multiple tools if the user mentions multiple activities or habits in one message.`;
   }
 
   public async processMessage(userId: string, input: string | Buffer): Promise<GeminiResponse> {
@@ -124,29 +129,48 @@ Remember: Only call ONE tool per response. Choose the most appropriate tool base
       }
 
       const response = await this.client.models.generateContent({
-        model: 'gemini-2.0-flash-exp',
+        model: 'gemini-2.5-flash',
         contents
       });
 
       const responseText = response.text;
       console.log('[Gemini] Raw response:', responseText);
 
-      // Check if response contains a tool call
-      if (responseText && responseText.includes('TOOL_CALL:')) {
-        try {
-          const toolCallMatch = responseText.match(/TOOL_CALL:\s*(\{.*\})/);
-          if (toolCallMatch) {
-            const toolCall = JSON.parse(toolCallMatch[1]);
-            
-            // Add userId to arguments if not present
-            if (!toolCall.arguments.userId) {
-              toolCall.arguments.userId = userId;
+      // Check if response contains tool calls
+      if (responseText) {
+        // Check for multiple tool calls first
+        if (responseText.includes('TOOL_CALLS:')) {
+          try {
+            const toolCallsMatch = responseText.match(/TOOL_CALLS:\s*(\[.*\])/);
+            if (toolCallsMatch) {
+              const toolCalls = JSON.parse(toolCallsMatch[1]);
+              
+              // Always override userId for each tool call
+              toolCalls.forEach((toolCall: ToolCall) => {
+                toolCall.arguments.userId = userId;
+              });
+              
+              return { toolCalls };
             }
-            
-            return { toolCall };
+          } catch (error) {
+            console.error('[Gemini] Error parsing multiple tool calls:', error);
           }
-        } catch (error) {
-          console.error('[Gemini] Error parsing tool call:', error);
+        }
+        // Check for single tool call
+        else if (responseText.includes('TOOL_CALL:')) {
+          try {
+            const toolCallMatch = responseText.match(/TOOL_CALL:\s*(\{.*\})/);
+            if (toolCallMatch) {
+              const toolCall = JSON.parse(toolCallMatch[1]);
+              
+              // Always override userId with the correct WhatsApp ID format
+              toolCall.arguments.userId = userId;
+              
+              return { toolCall };
+            }
+          } catch (error) {
+            console.error('[Gemini] Error parsing single tool call:', error);
+          }
         }
       }
 
