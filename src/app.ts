@@ -2,6 +2,9 @@ import 'module-alias/register';
 import { Client, LocalAuth } from 'whatsapp-web.js';
 import qrcode from 'qrcode-terminal';
 import puppeteer from 'puppeteer';
+import express from 'express';
+import fs from 'fs';
+import path from 'path';
 
 const client = new Client({
   authStrategy: new LocalAuth(),
@@ -21,6 +24,23 @@ const client = new Client({
 });
 
 client.initialize();
+
+const appExpress = express();
+const PORT = process.env.PORT || 3001;
+
+appExpress.get('/api/habits', (req, res) => {
+  const habitsPath = path.join(__dirname, '..', 'data', 'habits.json');
+  fs.readFile(habitsPath, 'utf8', (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to read habits.json' });
+    }
+    res.json(JSON.parse(data));
+  });
+});
+
+appExpress.listen(PORT, () => {
+  console.log(`Express server running on port ${PORT}`);
+});
 
 
 client.on('qr', (qr: string) => {
