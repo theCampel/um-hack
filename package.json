@@ -3,6 +3,7 @@
     "@google/genai": "^1.10.0",
     "csv-writer": "^1.6.0",
     "dotenv": "^16.5.0",
+    "express": "^5.1.0",
     "googleapis": "^153.0.0",
     "module-alias": "^2.2.3",
     "pg": "^8.11.3",
@@ -12,9 +13,11 @@
     "whatsapp-web.js": "^1.31.0"
   },
   "devDependencies": {
+    "@types/express": "^5.0.3",
     "@types/node": "^20.10.5",
     "@types/pg": "^8.10.9",
     "@types/qrcode-terminal": "^0.12.2",
+    "concurrently": "^9.2.0",
     "cross-env": "^7.0.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
@@ -23,6 +26,9 @@
     "build": "tsc",
     "start": "node -r module-alias/register dist/app.js",
     "dev": "npm run build && cross-env APP_ENV=development node -r module-alias/register dist/app.js",
+    "dev:bot": "npm run dev",
+    "dev:web": "cd web/u-hack-frontend-main && npm run dev",
+    "dev:both": "concurrently --names \"🤖BOT,🌐WEB\" --prefix-colors \"cyan,magenta\" \"npm run dev\" \"cd web/u-hack-frontend-main && npm run dev\"",
     "ef-dev": "npm run build && cross-env APP_ENV=ef-dev node -r module-alias/register dist/app.js",
     "prod": "npm run build && cross-env APP_ENV=production node -r module-alias/register dist/app.js",
     "extract:dev": "cross-env APP_ENV=development ts-node -r tsconfig-paths/register src/tools/extract_every_chat_to_CSV.ts",

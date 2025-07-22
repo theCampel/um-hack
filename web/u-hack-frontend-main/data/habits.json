@@ -1,0 +1,40 @@
+{
+    "447927612815@c.us": {
+      "name": "Leo Camacho",
+      "habits": {
+        "take_pills": {
+          "streak": 7,
+          "lastCompleted": "2025-01-21",
+          "description": "Daily vitamins and supplements"
+        },
+        "morning_run": {
+          "streak": 3,
+          "lastCompleted": "2025-01-21",
+          "description": "Morning exercise routine"
+        },
+        "meditation": {
+          "streak": 0,
+          "lastCompleted": "2025-01-15",
+          "description": "Daily mindfulness practice"
+        }
+      },
+      "activities": [
+        {
+          "date": "2025-01-21",
+          "type": "exercise",
+          "details": "5k morning run, felt energized",
+          "mood": "positive"
+        },
+        {
+          "date": "2025-01-21",
+          "type": "nutrition",
+          "details": "Had oatmeal and berries for breakfast",
+          "mood": "neutral"
+        }
+      ],
+      "preferences": {
+        "interests": ["ultramarathons", "podcasts", "health", "productivity"],
+        "goals": ["train for 10k race", "maintain vitamin routine", "improve sleep"]
+      }
+    }
+  } 

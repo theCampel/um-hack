@@ -3,8 +3,8 @@
     "name": "Leo Camacho",
     "habits": {
       "take_pills": {
-        "streak": 8,
-        "lastCompleted": "2025-01-21",
+        "streak": 1,
+        "lastCompleted": "2025-07-22",
         "description": "Daily vitamins and supplements"
       },
       "morning_run": {
@@ -13,8 +13,8 @@
         "description": "Morning exercise routine"
       },
       "meditation": {
-        "streak": 0,
-        "lastCompleted": "2025-01-15",
+        "streak": 1,
+        "lastCompleted": "2025-07-22",
         "description": "Daily mindfulness practice"
       }
     },
@@ -30,9 +30,45 @@
         "type": "nutrition",
         "details": "Had oatmeal and berries for breakfast",
         "mood": "neutral"
+      },
+      {
+        "date": "2025-07-22",
+        "type": "exercise",
+        "details": "Evening run",
+        "mood": "positive"
       }
     ],
     "videoRecommendations": [
+      {
+        "date": "2025-07-22",
+        "query": "ultramarathon videos",
+        "title": "How To Run Your First Ultra Marathon– Training Plan and Long Runs",
+        "channelTitle": "Ultra Marathon Trail Running with Simon",
+        "publishedAt": "2023-06-29T19:07:46Z",
+        "videoId": "cNzBhZSOe78",
+        "url": "https://www.youtube.com/watch?v=cNzBhZSOe78",
+        "thumbnailUrl": "https://i.ytimg.com/vi/cNzBhZSOe78/mqdefault.jpg"
+      },
+      {
+        "date": "2025-07-22",
+        "query": "tips for starting an ultramarathon",
+        "title": "How To Run Your First Ultra Marathon– Training Plan and Long Runs",
+        "channelTitle": "Ultra Marathon Trail Running with Simon",
+        "publishedAt": "2023-06-29T19:07:46Z",
+        "videoId": "cNzBhZSOe78",
+        "url": "https://www.youtube.com/watch?v=cNzBhZSOe78",
+        "thumbnailUrl": "https://i.ytimg.com/vi/cNzBhZSOe78/mqdefault.jpg"
+      },
+      {
+        "date": "2025-07-22",
+        "query": "how to get started with ultramarathons",
+        "title": "How To Run Your First Ultra Marathon– Training Plan and Long Runs",
+        "channelTitle": "Ultra Marathon Trail Running with Simon",
+        "publishedAt": "2023-06-29T19:07:46Z",
+        "videoId": "cNzBhZSOe78",
+        "url": "https://www.youtube.com/watch?v=cNzBhZSOe78",
+        "thumbnailUrl": "https://i.ytimg.com/vi/cNzBhZSOe78/mqdefault.jpg"
+      },
       {
         "date": "2025-07-22",
         "query": "beginner's tips for half marathon videos",

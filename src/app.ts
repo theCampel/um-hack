@@ -3,13 +3,14 @@ import 'dotenv/config';
 import { Client, LocalAuth } from 'whatsapp-web.js';
 import qrcode from 'qrcode-terminal';
 import puppeteer from 'puppeteer';
-import express from 'express';
-import fs from 'fs';
-import path from 'path';
+
 import { MessageRouter } from './message-router';
 
 const client = new Client({
-  authStrategy: new LocalAuth(),
+  authStrategy: new LocalAuth({
+    clientId: 'aura-whatsapp-bot',
+    dataPath: './.wwebjs_auth/'
+  }),
   puppeteer: {
     executablePath: puppeteer.executablePath(),
     headless: true,
