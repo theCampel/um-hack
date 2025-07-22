@@ -1,7 +1,9 @@
 import 'module-alias/register';
+import 'dotenv/config';
 import { Client, LocalAuth } from 'whatsapp-web.js';
 import qrcode from 'qrcode-terminal';
 import puppeteer from 'puppeteer';
+import { MessageRouter } from './message-router';
 
 const client = new Client({
   authStrategy: new LocalAuth(),
@@ -22,6 +24,7 @@ const client = new Client({
 
 client.initialize();
 
+const messageRouter = new MessageRouter();
 
 client.on('qr', (qr: string) => {
   // Generate and scan this code with your phone
@@ -38,5 +41,10 @@ client.on('ready', () => {
 
 
 client.on('message', (message) => {
-  console.log("The message.body is :", message.body);
+
+  if (message.from === '447927612815@c.us') {
+    messageRouter.handle(message).catch((error: Error) => {
+      console.error('[App] Error handling message:', error);
+    });
+  }
 });
