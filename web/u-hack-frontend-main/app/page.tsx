@@ -47,9 +47,9 @@ export default function HealthDashboard() {
     loadDataAsync()
   }, [])
 
-  /** Reads the JSON from /public - returns the parsed habits object */
+  /** Reads the JSON from our new API route */
   async function loadData() {
-    const res = await fetch("/habits.json")
+    const res = await fetch("/api/habits")
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     return (await res.json()) as HabitsData
   }

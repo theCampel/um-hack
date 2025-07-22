@@ -3,18 +3,18 @@
     "name": "Leo Camacho",
     "habits": {
       "take_pills": {
-        "streak": 1,
-        "lastCompleted": "2025-07-22",
+        "streak": 8,
+        "lastCompleted": "2025-07-21",
         "description": "Daily vitamins and supplements"
       },
       "morning_run": {
-        "streak": 3,
-        "lastCompleted": "2025-01-21",
+        "streak": 1,
+        "lastCompleted": "2025-07-21",
         "description": "Morning exercise routine"
       },
       "meditation": {
         "streak": 1,
-        "lastCompleted": "2025-07-22",
+        "lastCompleted": "2025-07-21",
         "description": "Daily mindfulness practice"
       }
     },
@@ -41,43 +41,13 @@
     "videoRecommendations": [
       {
         "date": "2025-07-22",
-        "query": "ultramarathon videos",
-        "title": "How To Run Your First Ultra Marathon– Training Plan and Long Runs",
-        "channelTitle": "Ultra Marathon Trail Running with Simon",
-        "publishedAt": "2023-06-29T19:07:46Z",
-        "videoId": "cNzBhZSOe78",
-        "url": "https://www.youtube.com/watch?v=cNzBhZSOe78",
-        "thumbnailUrl": "https://i.ytimg.com/vi/cNzBhZSOe78/mqdefault.jpg"
-      },
-      {
-        "date": "2025-07-22",
-        "query": "tips for starting an ultramarathon",
-        "title": "How To Run Your First Ultra Marathon– Training Plan and Long Runs",
-        "channelTitle": "Ultra Marathon Trail Running with Simon",
-        "publishedAt": "2023-06-29T19:07:46Z",
-        "videoId": "cNzBhZSOe78",
-        "url": "https://www.youtube.com/watch?v=cNzBhZSOe78",
-        "thumbnailUrl": "https://i.ytimg.com/vi/cNzBhZSOe78/mqdefault.jpg"
-      },
-      {
-        "date": "2025-07-22",
-        "query": "how to get started with ultramarathons",
-        "title": "How To Run Your First Ultra Marathon– Training Plan and Long Runs",
-        "channelTitle": "Ultra Marathon Trail Running with Simon",
-        "publishedAt": "2023-06-29T19:07:46Z",
-        "videoId": "cNzBhZSOe78",
-        "url": "https://www.youtube.com/watch?v=cNzBhZSOe78",
-        "thumbnailUrl": "https://i.ytimg.com/vi/cNzBhZSOe78/mqdefault.jpg"
-      },
-      {
-        "date": "2025-07-22",
-        "query": "beginner's tips for half marathon videos",
-        "title": "Half Marathon Training For Beginners! | How To Train For Your First Half-Marathon!",
+        "query": "half Ironman training videos for beginners",
+        "title": "How To Train For Your First Half Ironman",
         "channelTitle": "Global Triathlon Network",
-        "publishedAt": "2021-01-03T10:00:02Z",
-        "videoId": "C7NnlF0-p60",
-        "url": "https://www.youtube.com/watch?v=C7NnlF0-p60",
-        "thumbnailUrl": "https://i.ytimg.com/vi/C7NnlF0-p60/mqdefault.jpg"
+        "publishedAt": "2022-02-20T10:00:18Z",
+        "videoId": "bjLY7Y9vFv0",
+        "url": "https://www.youtube.com/watch?v=bjLY7Y9vFv0",
+        "thumbnailUrl": "https://i.ytimg.com/vi/bjLY7Y9vFv0/mqdefault.jpg"
       }
     ],
     "preferences": {
